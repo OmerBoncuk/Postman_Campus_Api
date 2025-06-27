@@ -1,0 +1,1851 @@
+{
+	"info": {
+		"_postman_id": "4702f0b4-5c81-4e50-a4c1-b5868239ebb6",
+		"name": "Mersys.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25108772"
+	},
+	"item": [
+		{
+			"name": "Omer Boncuk",
+			"item": [
+				{
+					"name": "US 08 Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"Token\", data.refresh_token);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"turkeyts\",\r\n  \"password\": \"TS.%=2025TR\",\r\n  \"rememberMe\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 08 Create Student Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"groupId\", data.id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": null,\r\n  \"schoolId\": \"6576fd8f8af7ce488ac69b89\",\r\n  \"name\": \"{{$randomCompanyName}}\",\r\n  \"description\": \"{{$randomJobDescriptor}}\",\r\n  \"active\": true,\r\n  \"publicGroup\": true,\r\n  \"showToStudent\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}school-service/api/student-group",
+							"host": [
+								"{{URL}}school-service"
+							],
+							"path": [
+								"api",
+								"student-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 08 Add Students in Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"657711ca8af7ce488ac6a628\",\r\n  \"657711ca8af7ce488ac6a62d\",\r\n  \"657711ca8af7ce488ac6a629\",\r\n  \"657711ca8af7ce488ac6a631\",\r\n  \"657711ca8af7ce488ac6a62e\",\r\n  \"657711ca8af7ce488ac6a62f\",\r\n  \"657711ca8af7ce488ac6a62b\",\r\n  \"657711ca8af7ce488ac6a630\",\r\n  \"657711ca8af7ce488ac6a62c\",\r\n  \"657711ca8af7ce488ac6a62a\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/school-service/api/student-group/{{groupId}}/add-students?page=0&size=10",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"school-service",
+								"api",
+								"student-group",
+								"{{groupId}}",
+								"add-students"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 08 Get Students",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/school-service/api/student-group/{{groupId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"school-service",
+								"api",
+								"student-group",
+								"{{groupId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 08 Delete Students",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"657711ca8af7ce488ac6a628\",\r\n  \"657711ca8af7ce488ac6a629\",\r\n  \"657711ca8af7ce488ac6a62d\",\r\n  \"657711ca8af7ce488ac6a62e\",\r\n  \"657711ca8af7ce488ac6a62f\",\r\n  \"657711ca8af7ce488ac6a631\",\r\n  \"657711ca8af7ce488ac6a62a\",\r\n  \"657711ca8af7ce488ac6a62b\",\r\n  \"657711ca8af7ce488ac6a62c\",\r\n  \"657711ca8af7ce488ac6a630\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/school-service/api/student-group/{{groupId}}/remove-students?page=0&size=10",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"school-service",
+								"api",
+								"student-group",
+								"{{groupId}}",
+								"remove-students"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 08 Delete Students Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/school-service/api/student-group/{{groupId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"school-service",
+								"api",
+								"student-group",
+								"{{groupId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Erdem Ozkan",
+			"item": [
+				{
+					"name": "US002_Country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomCountry}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"translateName\": null,\r\n  \"hasState\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CampusURL}}/countries",
+							"host": [
+								"{{CampusURL}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US012_Incıdent_List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tenantId\": \"646cb816433c0f46e7d44cb0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CampusURL}}/incident-type/search",
+							"host": [
+								"{{CampusURL}}"
+							],
+							"path": [
+								"incident-type",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US012_Incıdent_Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var IncidentID = pm.response.json().id;\r",
+									"\r",
+									"pm.collectionVariables.set(\"IncidentID\",IncidentID);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Incident{{$randomAlphaNumeric}}\",\r\n  \"active\": true,\r\n  \"tenantId\": \"646cb816433c0f46e7d44cb0\",\r\n  \"minPoint\": 1,\r\n  \"maxPoint\": 3,\r\n  \"academicBased\": false,\r\n  \"enabled\": false,\r\n  \"notifyWithMessage\": false,\r\n  \"notifyWithEmail\": false,\r\n  \"permissions\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CampusURL}}/incident-type",
+							"host": [
+								"{{CampusURL}}"
+							],
+							"path": [
+								"incident-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US012_Incıdent_Put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{IncidentID}}\",\r\n  \"name\": \"Incident{{$randomAlphaNumeric}}\",\r\n  \"active\": true,\r\n  \"tenantId\": \"646cb816433c0f46e7d44cb0\",\r\n  \"minPoint\": 2,\r\n  \"maxPoint\": 5,\r\n  \"academicBased\": false,\r\n  \"enabled\": false,\r\n  \"notifyWithMessage\": false,\r\n  \"notifyWithEmail\": false,\r\n  \"permissions\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CampusURL}}/incident-type",
+							"host": [
+								"{{CampusURL}}"
+							],
+							"path": [
+								"incident-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US012_Incıdent_Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CampusURL}}/incident-type/{{IncidentID}}",
+							"host": [
+								"{{CampusURL}}"
+							],
+							"path": [
+								"incident-type",
+								"{{IncidentID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gamze Batmaz",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "US 01 Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var data=pm.response.json();\r",
+											"pm.environment.set(\"Token\",data.refresh_token);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"password\":\"TS.%=2025TR\",\r\n\"rememberMe\":\"true\",\r\n\"username\":\"turkeyts\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CampusURL}}/auth/login?",
+									"host": [
+										"{{CampusURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "US 01 Login Negative",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"password\":\"TS.%=2025TR\",\r\n\"rememberMe\":\"true\",\r\n\"username\":\"turkeyts\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://test.mersys.io/auth/login",
+									"protocol": "https",
+									"host": [
+										"test",
+										"mersys",
+										"io"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Student Groups",
+					"item": [
+						{
+							"name": "Create Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var data = pm.response.json().id;\r",
+											"pm.collectionVariables.set(\"id\", data); "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxNTQ5MzY4LCJpYXQiOjE3NTA5NDQ1NjgsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllQNlZONzA3OEpBNEtBWTZON0dLN1BWIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.aSVOrOfr-T7LHM9WOZjg7GEEiCoAlw1EMV6Mx_Dp4J3tt5BTdXbyuN2GraOlKOdt3xOALqG-Eqe5SiUjLjQB8hmuzRooni0mbTpHLmlQbW3kC_3r_S7jH9iqU-TwwbbD347B05zKnV0EjVudbz6LWQ9d3JC5Dhgkc8UqL5TQqcQsHCW03lt05RcCFyqj6Qg9tM7IWIilTCOZeeXkB4-GsFAYScSGs0tEwa6VyrzLepJAEvG-LiztPwVjqDvErFhJr1vzowcIeqaa_AD7XLfOYN00E1TX-aQDrOhtMSV11kyOLOWIYVFrL8yEb0kggwVBZKjj-npr6FkeyJBnT5Rf9g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": null,\r\n  \"schoolId\": \"6576fd8f8af7ce488ac69b89\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"description\": \"{{$randomJobDescriptor}}\",\r\n  \"active\": true,\r\n  \"publicGroup\": true,\r\n  \"showToStudent\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CampusURL}}school-service/api/student-group",
+									"host": [
+										"{{CampusURL}}school-service"
+									],
+									"path": [
+										"api",
+										"student-group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxNTQ5MzY4LCJpYXQiOjE3NTA5NDQ1NjgsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllQNlZONzA3OEpBNEtBWTZON0dLN1BWIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.aSVOrOfr-T7LHM9WOZjg7GEEiCoAlw1EMV6Mx_Dp4J3tt5BTdXbyuN2GraOlKOdt3xOALqG-Eqe5SiUjLjQB8hmuzRooni0mbTpHLmlQbW3kC_3r_S7jH9iqU-TwwbbD347B05zKnV0EjVudbz6LWQ9d3JC5Dhgkc8UqL5TQqcQsHCW03lt05RcCFyqj6Qg9tM7IWIilTCOZeeXkB4-GsFAYScSGs0tEwa6VyrzLepJAEvG-LiztPwVjqDvErFhJr1vzowcIeqaa_AD7XLfOYN00E1TX-aQDrOhtMSV11kyOLOWIYVFrL8yEb0kggwVBZKjj-npr6FkeyJBnT5Rf9g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"schoolId\": \"6576fd8f8af7ce488ac69b89\",\r\n  \"name\": \"Team001\",\r\n  \"description\": \"Best team forever.\",\r\n  \"active\": true,\r\n  \"publicGroup\": true,\r\n  \"showToStudent\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CampusURL}}school-service/api/student-group",
+									"host": [
+										"{{CampusURL}}school-service"
+									],
+									"path": [
+										"api",
+										"student-group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxNTQ5MzY4LCJpYXQiOjE3NTA5NDQ1NjgsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllQNlZONzA3OEpBNEtBWTZON0dLN1BWIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.aSVOrOfr-T7LHM9WOZjg7GEEiCoAlw1EMV6Mx_Dp4J3tt5BTdXbyuN2GraOlKOdt3xOALqG-Eqe5SiUjLjQB8hmuzRooni0mbTpHLmlQbW3kC_3r_S7jH9iqU-TwwbbD347B05zKnV0EjVudbz6LWQ9d3JC5Dhgkc8UqL5TQqcQsHCW03lt05RcCFyqj6Qg9tM7IWIilTCOZeeXkB4-GsFAYScSGs0tEwa6VyrzLepJAEvG-LiztPwVjqDvErFhJr1vzowcIeqaa_AD7XLfOYN00E1TX-aQDrOhtMSV11kyOLOWIYVFrL8yEb0kggwVBZKjj-npr6FkeyJBnT5Rf9g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \r\n  \"publicGroup\": true,\r\n  \"showToStudent\": true,\r\n  \"schoolId\": \"6576fd8f8af7ce488ac69b89\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CampusURL}}school-service/api/student-group/search",
+									"host": [
+										"{{CampusURL}}school-service"
+									],
+									"path": [
+										"api",
+										"student-group",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxNTQ5MzY4LCJpYXQiOjE3NTA5NDQ1NjgsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllQNlZONzA3OEpBNEtBWTZON0dLN1BWIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.aSVOrOfr-T7LHM9WOZjg7GEEiCoAlw1EMV6Mx_Dp4J3tt5BTdXbyuN2GraOlKOdt3xOALqG-Eqe5SiUjLjQB8hmuzRooni0mbTpHLmlQbW3kC_3r_S7jH9iqU-TwwbbD347B05zKnV0EjVudbz6LWQ9d3JC5Dhgkc8UqL5TQqcQsHCW03lt05RcCFyqj6Qg9tM7IWIilTCOZeeXkB4-GsFAYScSGs0tEwa6VyrzLepJAEvG-LiztPwVjqDvErFhJr1vzowcIeqaa_AD7XLfOYN00E1TX-aQDrOhtMSV11kyOLOWIYVFrL8yEb0kggwVBZKjj-npr6FkeyJBnT5Rf9g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CampusURL}}school-service/api/student-group/{{id}}",
+									"host": [
+										"{{CampusURL}}school-service"
+									],
+									"path": [
+										"api",
+										"student-group",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Baris Saydam",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data=pm.response.json();\r",
+									"pm.environment.set(\"Token\",data.refresh_token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\":\"TS.%=2025TR\",\r\n  \"rememberMe\": \"true\",\r\n  \"username\": \"turkeyts\" \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}auth/login",
+							"host": [
+								"{{Campus}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creat New Student Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var GroupID = pm.response.json().id;  // donus JSON'daki id degeri alindi\r",
+									"console.log(GroupID); // alinan id ekrana kontrol icin yazildi\r",
+									"\r",
+									"pm.collectionVariables.set(\"GroupID\", GroupID);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"active\":\"true\",\r\n    \"description\":\"Lighting and more.\",\r\n    \"name\":\"{{$randomFullName}}\",\r\n    \"publicGroup\":\"true\",\r\n    \"schoolId\":\"6576fd8f8af7ce488ac69b89\",\r\n    \"showToStudent\":\"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}school-service/api/student-group",
+							"host": [
+								"{{Campus}}school-service"
+							],
+							"path": [
+								"api",
+								"student-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Students to New Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"657711ca8af7ce488ac6a629\", \"657711ca8af7ce488ac6a631\", \"657711ca8af7ce488ac6a62e\",\"657711ca8af7ce488ac6a62f\",\"657711ca8af7ce488ac6a62b\"]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}school-service/api/student-group/{{GroupID}}/add-students",
+							"host": [
+								"{{Campus}}school-service"
+							],
+							"path": [
+								"api",
+								"student-group",
+								"{{GroupID}}",
+								"add-students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group's Student List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}school-service/api/student-group/{{GroupID}}",
+							"host": [
+								"{{Campus}}school-service"
+							],
+							"path": [
+								"api",
+								"student-group",
+								"{{GroupID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Student From Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    [\"657711ca8af7ce488ac6a629\"]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}school-service/api/student-group/{{GroupID}}/remove-students",
+							"host": [
+								"{{Campus}}school-service"
+							],
+							"path": [
+								"api",
+								"student-group",
+								"{{GroupID}}",
+								"remove-students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Student Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Campus}}school-service/api/students/group/{{GroupID}}?page=0&size=10 ",
+							"host": [
+								"{{Campus}}school-service"
+							],
+							"path": [
+								"api",
+								"students",
+								"group",
+								"{{GroupID}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10 "
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Atilla Avci",
+			"item": [
+				{
+					"name": "Cities",
+					"item": [
+						{
+							"name": "GET Cities List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"turkeyts\",\r\n  \"password\": \"TS.%=2025TR\",\r\n  \"rememberMe\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/cities",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"cities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create City",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"CitiesID\", pm.response.json().id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomCity}}\",\r\n  \"country\": {\r\n    \"id\": \"6859a88e8ed86951f650b890\"\r\n  },\r\n  \"state\": null,\r\n  \"translateName\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/cities",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"cities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update City",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{CitiesID}}\",\r\n  \"name\": \"{{$randomCity}}\",\r\n  \"country\": {\r\n    \"id\": \"6859a88e8ed86951f650b890\"\r\n  },\r\n  \"state\": null,\r\n  \"translateName\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/cities",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"cities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE City",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/cities/{{CitiesID}}",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"cities",
+										"{{CitiesID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Grading",
+					"item": [
+						{
+							"name": "GET Grading Scheme List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"turkeyts\",\r\n  \"password\": \"TS.%=2025TR\",\r\n  \"rememberMe\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/grading-schemes/tenant/{{SchoolID}}/search",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"grading-schemes",
+										"tenant",
+										"{{SchoolID}}",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create Grading",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var data = pm.response.json().id;\r",
+											"pm.collectionVariables.set(\"GradingID\", data);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const randomInt = Math.floor(Math.random() * 100) + 1;\r",
+											"pm.environment.set(\"randomIntMax100\", randomInt);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"tenantId\": \"646cb816433c0f46e7d44cb0\",\r\n  \"type\": \"POINT\",\r\n  \"minPointToPass\": {{randomIntMax100}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/grading-schemes",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"grading-schemes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update Grading",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{GradingID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"tenantId\": \"646cb816433c0f46e7d44cb0\",\r\n  \"type\": \"POINT\",\r\n  \"minPointToPass\": {{randomIntMax100}}\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAMPUSURL}}/school-service/api/grading-schemes",
+									"host": [
+										"{{CAMPUSURL}}"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"grading-schemes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Grading",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://test.mersys.io/school-service/api/grading-schemes/{{GradingID}}",
+									"protocol": "https",
+									"host": [
+										"test",
+										"mersys",
+										"io"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"grading-schemes",
+										"{{GradingID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Grading(Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0dXJrZXl0cyIsImlzcyI6ImNhbXB1cyIsInRlbmFudElkIjoiNjQ2Y2I4MTY0MzNjMGY0NmU3ZDQ0Y2IwIiwiZXhwIjoxNzUxMjkxNzU1LCJpYXQiOjE3NTA2ODY5NTUsInVzZXJJZCI6IjY0NmNjMmVmOGJkYWU1M2ZmMmZlZTU5OCIsImp0aSI6IjAxSllFSDVZRFgxSjEyOUUzTTdUVlEySzlUIiwiYXV0aG9yaXRpZXMiOiJST0xFX1RFQ0hOT19URVNULFJPTEVfRVZFUllPTkUifQ.QN6f5Nm9cCRh_9ytOzEK8D-vKrTdexx3ln47x-ZMFIdXjrJYsN4ok5OtUvtJQVsBgBwg-gA9WXbXTwWST0TExsMWVMoiduaRY6-oNvdJxz4ees3cIEcAkXmFPIh04IhlthQt4KKT3pXxmSnIr_Ky6E80-3dqYx8et6RaxhgUPID_hvaiwydBZ87q66jS6BNwiQutxdOjjAmMjZFiOmW5SnMV6vrrEOKtjdBNTK-Kv3mN3eEHzRwLio9w84kfyPClfMP0n01ZxpSbGKqs-6bsQ11avbnRY8Gpea1AOD0UKlUIbc1rHl0ZzVePOWCDBh9giOR09Y5Rm0lCyLQDwLqWXg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://test.mersys.io/school-service/api/grading-schemes/{{GradingID}}",
+									"protocol": "https",
+									"host": [
+										"test",
+										"mersys",
+										"io"
+									],
+									"path": [
+										"school-service",
+										"api",
+										"grading-schemes",
+										"{{GradingID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Diyar Olmez",
+			"item": []
+		}
+	],
+	"variable": [
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "description",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
