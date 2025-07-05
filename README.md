@@ -1,14 +1,31 @@
-# API Test Environment User Stories
+# 📚 Campus API - Automated API Testing with Postman
 
-This project contains user stories and acceptance criteria prepared for an API test environment.  
-It covers test scenarios for multiple microservices and prioritized business requirements.
+This repository contains **Postman-based** automated tests for the **Campus API** (`https://test.mersys.io`).  
+The goal is to validate API endpoint functionality and catch regressions or integration issues quickly.
 
-## 📌 Project Purpose
+---
 
-- To perform CRUD operations over API
-- To manage entities such as State, City, and Course
-- To ensure the system responds within the specified performance times
-- To validate required checks during user exam creation processes
+## 🚀 Technologies Used
+
+- **Postman** – for creating test scenarios and managing collections  
+- **Postman Test Scripts** – for JavaScript-based assertions  
+- **Newman** – CLI tool for running collections (great for CI/CD)  
+- **JSON Environment** – for managing tokens and dynamic environment data  
+
+---
+
+## ⚙️ Environment & Security
+
+- **Base URL:** `https://test.mersys.io`
+- **API Base Path:** `/school-service/api/{...}`
+- **Content-Type:** `application/json`
+- **Admin Credentials:**
+  - **Username:** `turkeyts`
+  - **Password:** `TechnoStudy123`
+
+Authentication is done by sending a request to `/auth/login` and using the returned token in the header of subsequent requests.
+
+---
 
 ## 📊 Test Summary Table
 | ID        | User Story Description             | Endpoint(s)                            | Expected Status Codes            | Notes                                             |
@@ -25,6 +42,13 @@ It covers test scenarios for multiple microservices and prioritized business req
 | **US010** | CRUD on education standards        | `/education-standard`                  | `200`, `201`, `204`, `400`       | Lists standards by school ID                      |
 | **US011** | CRUD on grading schemes            | `/grading-schemes`                     | `200`, `201`, `204`, `400`       | Validates name, type, and school link             |
 | **US012** | CRUD on incident types             | `/incident-type`                       | `200`, `201`, `204`, `400`       | Ensures proper incident data & error handling     |
+
+
+CampusAPI_Postman/
+├── CampusAPI.postman_collection.json
+├── CampusAPI_ENV.postman_environment.json
+└── README.md
+
 
 
 ## 👥 Team Members
